@@ -1,0 +1,39 @@
+{
+  "name": "spendesk-collect",
+  "version": "0.0.1",
+  "description": "A Node.js library for Spendesl Collect",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "superagent": "^4.0.0",
+    "winston": "^3.1.0"
+  },
+  "engines": {
+    "node": "8.11.x",
+    "npm": "5.6.x",
+    "yarn": "1.6.x"
+  },
+  "devDependencies": {
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jest": "^22.0.1",
+    "eslint-plugin-prettier": "^3.0.0",
+    "jest": "^23.6.0",
+    "prettier": "^1.15.2"
+  },
+  "scripts": {
+    "test": "yarn run test:lint && yarn run test:combined",
+    "test:lint": "eslint src",
+    "test:combined": "NODE_ENV=test jest ./tests",
+    "test:unit": "NODE_ENV=test jest ./tests/units",
+    "test:integration": "NODE_ENV=test jest ./tests/integrations"
+  },
+  "main": "src/index.js",
+  "repository": "git@github.com:Spendesk/collect-node.git",
+  "author": "Auree Aubert <contact@auree.me>",
+  "license": "MIT",
+  "private": false
+}
