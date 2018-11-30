@@ -15,7 +15,7 @@ module.exports = token => {
         host: CONFIG.brokerHost,
         ssl: true,
         path: "/ship-api/logs",
-        headers: { authorization: `Bearer ${token}` }
+        headers: { authorization: `Basic ${token}` }
       })
     ]
   });
