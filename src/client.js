@@ -19,7 +19,9 @@ class Client {
   }
 
   done(hasError = false) {
-    this.agent.put(`${CONFIG.brokerHost}/ship-api`).send({ isCollected: true, hasError });
+    this.agent
+      .put(`${CONFIG.brokerHost}/ship-api`)
+      .send({ isCollected: true, hasError });
   }
 }
 
