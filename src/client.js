@@ -12,7 +12,7 @@ class Client {
       .redirects(0)
       .set({
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Basic ${token}`
       });
     this.logger = loggerUtil(token);
     this.invoice = new InvoiceUtil(this.agent);
