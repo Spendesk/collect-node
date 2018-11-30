@@ -18,8 +18,8 @@ class Client {
     this.invoice = new InvoiceUtil(this.agent);
   }
 
-  done() {
-    this.agent.put(`${CONFIG.brokerHost}/ship-api`).send({ isCollected: true });
+  done(hasError = false) {
+    this.agent.put(`${CONFIG.brokerHost}/ship-api`).send({ isCollected: true, hasError });
   }
 }
 
