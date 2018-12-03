@@ -5,11 +5,18 @@ class Invoice {
     this.agent = agent;
   }
 
-  create(filePath, fileIdentifier) {
-    this.agent
-      .post(`${CONFIG.brokerHost}/ship-api/invoices`)
-      .attach("file", filePath)
-      .field("fileIdentifier", fileIdentifier);
+  create(file, identifier, dueAt, options = {}) {
+    return this.agent
+      .post(`https://${CONFIG.brokerHost}/ship-api/invoices`)
+      .attach("file", file, options)
+      .field("identifier", identifier)
+      .field("dueAt", dueAt)
+      .then(() => {
+        return true;
+      })
+      .catch(() => {
+        return false;
+      });
   }
 }
 
