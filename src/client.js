@@ -19,9 +19,15 @@ class Client {
   }
 
   done(hasError = false) {
-    this.agent
-      .put(`${CONFIG.brokerHost}/ship-api`)
-      .send({ isRunning: false, hasError });
+    return this.agent
+      .put(`https://${CONFIG.brokerHost}/ship-api`)
+      .send({ isRunning: false, hasError })
+      .then(() => {
+        return true;
+      })
+      .catch(() => {
+        return false;
+      });
   }
 }
 
