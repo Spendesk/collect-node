@@ -18,6 +18,18 @@ class Client {
     this.invoice = new InvoiceUtil(this.agent);
   }
 
+  status(label, message) {
+    return this.agent
+      .put(`https://${CONFIG.brokerHost}/ship-api`)
+      .send({ status: { label, message } })
+      .then(() => {
+        return true;
+      })
+      .catch(() => {
+        return false;
+      });
+  }
+
   done(hasError = false) {
     return this.agent
       .put(`https://${CONFIG.brokerHost}/ship-api`)
