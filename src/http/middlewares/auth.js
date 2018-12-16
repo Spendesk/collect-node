@@ -1,3 +1,5 @@
+const _ = require("lodash");
+
 const Client = require("../../client");
 
 module.exports = (req, res, next) => {
@@ -9,10 +11,13 @@ module.exports = (req, res, next) => {
     return res.status(401).send({ message: "Unauthorized access" });
   }
 
-  req.client = new Client(req.headers["ship-token"]);
+  const id = _.first(_.split(Buffer.from(token, "base64").toString(), ":"));
+
+  req.client = new Client(token);
   req.ship = {
-    settings: JSON.parse(req.headers["ship-settings"] || {}),
-    lastCollectedAt: req.headers["ship-last-collected-at"]
+    id,
+    settings,
+    lastCollectedAt
   };
 
   return next();
