@@ -39,6 +39,7 @@ const client = new SpendeskCollect.Client("SHIP_TOKEN");
 This Client API allows to connect with the Spendesk Collect infrastructure. Here the list of methods available: 
 
 - `done(hasError)`: needs to be called at the end of the `collect` action
+- `status(label, message)`: needs to be called for the signin
 - `invoices.create(file, identifier, dueAt, options)`: uploads a new invoice
   - `file` needs a path or a buffer
   - `indentifier` needs to be unique
