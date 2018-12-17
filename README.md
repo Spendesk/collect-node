@@ -1,3 +1,5 @@
+![npm version](https://badge.fury.io/js/spendesk-collect.svg)
+
 # Spendesk Collect Node
 
 ## Installation
