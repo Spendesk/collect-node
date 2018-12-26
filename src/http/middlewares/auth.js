@@ -16,7 +16,7 @@ module.exports = (req, res, next) => {
   const id = _.first(_.split(Buffer.from(token, "base64").toString(), ":"));
 
   req.client = new Client(token);
-  req.captchaSolver = new CaptchaSolver(captchaSolverToken)
+  req.captchaSolver = new CaptchaSolver(captchaSolverToken);
   req.ship = {
     id,
     settings,

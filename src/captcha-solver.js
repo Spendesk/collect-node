@@ -6,16 +6,24 @@ const DEATH_BY_CAPTCHA_CONFIG = require("./utils/config").deathByCaptcha;
 
 class CaptchaSolver {
   constructor(token) {
-    [ this.username, this.password ] = _.split(Buffer.from(token, "base64").toString(), ":");
+    [this.username, this.password] = _.split(
+      Buffer.from(token, "base64").toString(),
+      ":"
+    );
 
     this.agent = superagent
       .agent()
       .redirects(1)
-      .set({ "Accept": "application/json" });
+      .set({ Accept: "application/json" });
   }
 
-  async solveReCaptcha(googlekey, pageurl, proxy, proxytype) { 
-    const reCaptchaRequest = await this._reCaptchaRequest({ googlekey, pageurl, proxy, proxytype });
+  async solveReCaptcha(googlekey, pageurl, proxy, proxytype) {
+    const reCaptchaRequest = await this._reCaptchaRequest({
+      googlekey,
+      pageurl,
+      proxy,
+      proxytype
+    });
     const reCaptchaRequestId = reCaptchaRequest.body.captcha;
 
     await delay(DEATH_BY_CAPTCHA_CONFIG.timeout);
