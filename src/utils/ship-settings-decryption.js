@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 const _ = require("lodash");
 
-const SETTINGS_SCHEMA = require(`${process.cwd()}/manifest.json`).settingsSchema;
+//const SETTINGS_SCHEMA = require(`${process.cwd()}/manifest.json`).settingsSchema;
 const IV_LENGTH = 16;
 
 class ShipSettingsDecryption {
@@ -11,7 +11,7 @@ class ShipSettingsDecryption {
 
   decrypt() {
     if (!this.settings.devMode) {
-      _.each(this._getEncryptedFieldNames(), this.decryptField);
+      _.each(this._getEncryptedFieldNames(), (fieldName) => this.decryptField(fieldName));
     }
 
     return this.settings;
@@ -25,10 +25,11 @@ class ShipSettingsDecryption {
     }
 
     const valueParts = fieldValue.split(":");
-    const iv = new Buffer(valueParts.shift(), "hex");
-    const decipher = crypto.createDecipheriv("aes-256-cbc", new Buffer(process.env.SETTINGS_ENCRYPTION_KEY), iv);
+    const iv = Buffer.from(valueParts.shift(), "hex");
+    const decipher = crypto.createDecipheriv("aes-256-cbc", Buffer.from(process.env.SETTINGS_ENCRYPTION_KEY), iv);
+    const encryptedValue = Buffer.from(valueParts.join(":"), "hex");
     const decryptedValue = Buffer.concat([
-      decipher.update(new Buffer(fieldValue, "hex")),
+      decipher.update(encryptedValue),
       decipher.final()
     ]);
 
@@ -40,4 +41,4 @@ class ShipSettingsDecryption {
   }
 }
 
-module.exports = ShipSettingsEncryption;  
+module.exports = ShipSettingsDecryption;  
