@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 const _ = require("lodash");
 
-const SETTINGS_SCHEMA = require(`${process.cwd()}/manifest.json`).settings_schema;
+const SETTINGS_SCHEMA = require(`${process.cwd()}/manifest.json`).settingsSchema;
 const IV_LENGTH = 16;
 
 class ShipSettingsDecryption {
