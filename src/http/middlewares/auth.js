@@ -8,11 +8,11 @@ module.exports = (req, res, next) => {
   const encryptedSettings = req.headers["ship-settings"];
   const lastCollectedAt = req.headers["ship-last-collected-at"];
 
-  if (!token || !settings || !lastCollectedAt) {
+  if (!token || !encryptedSettings || !lastCollectedAt) {
     return res.status(401).send({ message: "Unauthorized access" });
   }
 
-  const settings = new ShipSettingsDecryption(settings).decrypt();
+  const settings = new ShipSettingsDecryption(encryptedSettings).decrypt();
   const id = _.first(_.split(Buffer.from(token, "base64").toString(), ":"));
 
   req.client = new Client(token);
