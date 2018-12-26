@@ -28,7 +28,8 @@ context is inialized for `status` and `collect` actions.
 ```javascript
 module.exports = async (req, res) => {
   const client = req.client; // SpendeskCollect.Client instance
-  const ship = req.ship; //Ship information { settings, lastCollectedAt }
+  const ship = req.ship; // Ship information { settings, lastCollectedAt }
+  const captchaSolver = req.captchaSolver; // Instance of captcha solver (see below for more information)
 }
 ```
 
@@ -42,9 +43,24 @@ This Client API allows to connect with the Spendesk Collect infrastructure. Here
 
 - `done(hasError)`: needs to be called at the end of the `collect` action
 - `status(label, message)`: needs to be called for the signin
-- `invoices.create(file, identifier, dueAt, options)`: uploads a new invoice
+- `invoices.create(file, metadata, fileOptions)`: uploads a new invoice
   - `file` needs a path or a buffer
-  - `indentifier` needs to be unique
-  - `dueAt` is the invoice due date, 
-  - `options` is optional if `file` is a path otherwise it needs to follow this pattern: `{ contentType, filename }`
+  - `metadata` is an object that contains invoice metadata. Requested attributes: `identifier`, `dueAt`, `amount`, `currency`
+  - `fileOptions` is optional if `file` is a path otherwise it needs to follow this pattern: `{ contentType, filename }`
 - `logger`: winston logger (`error`, `warn`, `info`, `verbose`, `debug`, `silly`)
+
+
+## Spendesk Collect Captcha Solver
+
+```javascript
+const captchaSolver = new SpendeskCollect.CaptchaSolver("CAPTCHA_SOLVER_TOKEN");
+```
+
+List of methods availables:
+
+- `solveReCaptcha(googlekey, pageurl, proxy, proxytype)`: method to solve google recaptcha
+  - `googlekey` corresponds to the captcha key. You can find it in the src of the iframe https://www.google.com/recaptcha/api2/anchor?ar=1&k=GOOGLE_KEY&co=XXX&hl=en&v=VVV&size=normal&cb=YYY
+  - `pageurl` corresponds to the website url where the captcha is
+  - (optional) `proxy` allows you to add a proxy url if wanted
+  - (optional) `proxytype`
+
