@@ -1,6 +1,6 @@
 {
   "name": "spendesk-collect",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A Node.js library for Spendesl Collect",
   "dependencies": {
     "body-parser": "^1.18.3",
