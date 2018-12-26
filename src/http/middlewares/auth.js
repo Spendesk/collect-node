@@ -6,7 +6,7 @@ const CaptchaSolver = require("../../captcha-solver");
 
 module.exports = (req, res, next) => {
   const token = req.headers["ship-token"];
-  const encryptedSettings = req.headers["ship-settings"];
+  const encryptedSettings = JSON.parse(req.headers["ship-settings"]);
   const lastCollectedAt = req.headers["ship-last-collected-at"];
   const captchaSolverToken = req.headers["captcha-solver-token"];
 
