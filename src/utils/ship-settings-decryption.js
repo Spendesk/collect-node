@@ -10,7 +10,7 @@ class ShipSettingsDecryption {
   }
 
   decrypt() {
-    if (!this.settings.dev_mode) {
+    if (!this.settings.devMode) {
       _.each(this._getEncryptedFieldNames(), this.decryptField);
     }
 
