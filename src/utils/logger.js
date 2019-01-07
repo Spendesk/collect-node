@@ -2,7 +2,7 @@ const winston = require("winston");
 
 const CONFIG = require("./config");
 
-module.exports = token => {
+module.exports = (token, environment) => {
   return winston.createLogger({
     levels: winston.config.npm.levels,
     transports: [
@@ -12,7 +12,7 @@ module.exports = token => {
         stringify: true
       }),
       new winston.transports.Http({
-        host: CONFIG.brokerHost,
+        host: CONFIG.broker[environment],
         ssl: true,
         path: "/ship-api/logs",
         headers: { authorization: `Basic ${token}` }

@@ -8,8 +8,9 @@ const staticRouter = require("./http/routers/static");
 const apiRouter = require("./http/routers/api");
 
 class Collector {
-  constructor(port) {
+  constructor(port, devMode = false) {
     this.port = port;
+    this.devMode = devMode;
     this.app = express();
   }
 
@@ -19,7 +20,16 @@ class Collector {
     this.app.use(bodyParser.json());
 
     this.app.use("/", staticRouter());
-    this.app.use("/api", authMiddleware, apiRouter());
+    this.app.use(
+      "/api",
+      (req, res, next) => {
+        req.devMode = this.devMode;
+
+        return next();
+      },
+      authMiddleware,
+      apiRouter()
+    );
 
     this.app.listen(this.port);
 

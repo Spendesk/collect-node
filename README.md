@@ -11,7 +11,8 @@ yarn add spendesk-collect
 ## Spendesk Collect Collector
 
 ```javascript
-const collector = new SpendeskCollect.Collector(8080);
+const collector = new SpendeskCollect.Collector(PORT, DEV_MODE);
+// DEV_MODE is optional (default: false)
 collector.startApp();
 ```
 

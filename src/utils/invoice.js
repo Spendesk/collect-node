@@ -1,13 +1,14 @@
 const CONFIG = require("./config");
 
 class Invoice {
-  constructor(agent) {
+  constructor(agent, environment) {
+    this.environment = environment;
     this.agent = agent;
   }
 
   create(file, metadata, fileOptions = {}) {
     return this.agent
-      .post(`https://${CONFIG.brokerHost}/ship-api/invoices`)
+      .post(`https://${CONFIG.broker[this.environment]}/ship-api/invoices`)
       .attach("file", file, fileOptions)
       .field("identifier", metadata.identifier)
       .field("dueAt", metadata.dueAt)
