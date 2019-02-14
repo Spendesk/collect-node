@@ -29,7 +29,7 @@ context is inialized for `status` and `collect` actions.
 ```javascript
 module.exports = async (req, res) => {
   const client = req.client; // SpendeskCollect.Client instance
-  const ship = req.ship; // Ship information { settings, lastCollectedAt }
+  const ship = req.ship; // Ship information { settings, nextCollectAt }
   const captchaSolver = req.captchaSolver; // Instance of captcha solver (see below for more information)
 }
 ```
