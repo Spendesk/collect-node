@@ -2,8 +2,8 @@ const queue = require("../../utils/queue");
 
 const collect = (req, res) => {
   queue.create("collector", {
-    clientOptions: req.client,
-    captchaSolverOptions: req.captchaSolver,
+    clientOptions: req.clientOptions,
+    captchaSolverOptions: req.captchaSolverOptions,
     ship: req.ship,
     actionKey: "collect"
   }).save();
