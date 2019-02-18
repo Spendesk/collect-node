@@ -7,6 +7,8 @@ const authMiddleware = require("./http/middlewares/auth");
 const staticRouter = require("./http/routers/static");
 const apiRouter = require("./http/routers/api");
 
+const processes = require("./processes");
+
 class Collector {
   constructor(port, devMode = false) {
     this.port = port;
@@ -15,6 +17,8 @@ class Collector {
   }
 
   startApp() {
+    processes();
+
     this.app.use(cors());
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());

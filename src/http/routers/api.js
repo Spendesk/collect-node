@@ -1,13 +1,12 @@
 const express = require("express");
 
-const collectAction = require(`${process.cwd()}/app/actions/collect`);
-const statusAction = require(`${process.cwd()}/app/actions/status`);
+const actions = require("../actions");
 
 module.exports = () => {
   const router = express.Router();
 
-  router.post("/collect", collectAction);
-  router.get("/status", statusAction);
+  router.post("/collect", actions.collect);
+  router.get("/status", actions.status);
 
   return router;
 };
