@@ -17,8 +17,13 @@ module.exports = (req, res, next) => {
   const settings = new ShipSettingsDecrypter(encryptedSettings).decrypt();
   const id = _.first(_.split(Buffer.from(token, "base64").toString(), ":"));
 
-  req.client = new Client(token, req.devMode);
-  req.captchaSolver = new CaptchaSolver(captchaSolverToken);
+  req.clientOptions = {
+    token,
+    devMode: req.devMode
+  };
+  req.captchaSolverOptions = {
+    token: captchaSolverToken
+  };
   req.ship = {
     id,
     settings,
