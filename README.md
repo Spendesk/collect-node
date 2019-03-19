@@ -17,7 +17,7 @@ collector.startApp();
 
 The collector module launches automatically an express server instance and exposes the routes needed to develop a collector.
 
-- `api/status`: returns if ship settings are valids or not
+- `api/auth`: returns if ship settings are valids or not
 - `api/collect`: called to extract invoices from a supplier
 - `description`: redirects to `./DESCRIPTION.md`, collector description
 - `manifest`: redirects to `./manifest.json`
@@ -42,8 +42,7 @@ const client = new SpendeskCollect.Client("SHIP_TOKEN", DEV_MODE);
 
 This Client API allows to connect with the Spendesk Collect infrastructure. Here the list of methods available: 
 
-- `done(hasError)`: needs to be called at the end of the `collect` action
-- `status(label, message)`: needs to be called for the signin
+- `status(label, type, message)`: returns to broker the status of the ship
 - `invoices.create(file, metadata, fileOptions)`: uploads a new invoice
   - `file` needs a path or a buffer
   - `metadata` is an object that contains invoice metadata. Requested attributes: `identifier`, `dueAt`, `amount`, `currency`
