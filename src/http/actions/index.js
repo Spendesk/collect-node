@@ -5,18 +5,18 @@ const collect = (req, res) => {
     clientOptions: req.clientOptions,
     captchaSolverOptions: req.captchaSolverOptions,
     ship: req.ship,
-    actionKey: "collect"
+    actionType: "collect"
   }).save();
 
   res.json({ ok: true });
 };
 
-const status = (req, res) => {
+const auth = (req, res) => {
   queue.create("collector", {
     clientOptions: req.clientOptions,
     captchaSolverOptions: req.captchaSolverOptions,
     ship: req.ship,
-    actionKey: "status"
+    actionType: "auth"
   }).save();
 
   res.json({ ok: true });
@@ -24,5 +24,5 @@ const status = (req, res) => {
 
 module.exports = {
   collect,
-  status
+  auth
 };

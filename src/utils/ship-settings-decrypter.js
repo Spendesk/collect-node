@@ -41,7 +41,13 @@ class ShipSettingsDecrypter {
   }
 
   _getEncryptedFieldNames() {
-    return _.map(_.filter(SETTINGS_SCHEMA, ["encrypted", true]), "name");
+    return _.map(
+      _.filter(
+        _.values(SETTINGS_SCHEMA),
+        ["encrypted", true]
+      ), 
+      "name"
+    );
   }
 }
 
