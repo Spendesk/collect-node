@@ -1,6 +1,6 @@
 const _ = require("lodash");
 
-const ShipSettingsDecrypter = require("../../utils/ship-settings-decrypter");
+const SettingsDecrypter = require("../../utils/settings-decrypter");
 const Client = require("../../client");
 const CaptchaSolver = require("../../captcha-solver");
 
@@ -17,7 +17,7 @@ module.exports = (req, res, next) => {
     return res.status(401).send({ message: "Unauthorized access" });
   }
 
-  const decryptedSettings = new ShipSettingsDecrypter(settings).decrypt();
+  const decryptedSettings = new SettingsDecrypter(settings).decrypt();
   const id = _.first(_.split(Buffer.from(token, "base64").toString(), ":"));
 
   req.clientOptions = {
