@@ -4,7 +4,7 @@ const _ = require("lodash");
 const SETTINGS_SCHEMA = require(`${process.cwd()}/manifest.json`)
   .settingsSchema;
 
-class ShipSettingsDecrypter {
+class SettingsDecrypter {
   constructor(settings) {
     this.settings = settings;
   }
@@ -51,4 +51,4 @@ class ShipSettingsDecrypter {
   }
 }
 
-module.exports = ShipSettingsDecrypter;
+module.exports = SettingsDecrypter;
