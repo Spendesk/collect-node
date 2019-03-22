@@ -1,4 +1,4 @@
-const queue = require("../../utils/queue");
+const queue = require("../../lib/queue");
 
 const collect = (req, res) => {
   queue.create("collector", {
