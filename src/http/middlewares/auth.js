@@ -5,6 +5,7 @@ const Client = require("../../client");
 const CaptchaSolver = require("../../captcha-solver");
 
 module.exports = (req, res, next) => {
+  const devMode = req.headers["dev-mode"] === "true";
   const token = req.headers["ship-token"];
   const encryptedSettings = JSON.parse(req.headers["ship-settings"]);
   const nextCollectAt = req.headers["ship-next-collect-at"];
@@ -14,12 +15,14 @@ module.exports = (req, res, next) => {
     return res.status(401).send({ message: "Unauthorized access" });
   }
 
-  const settings = new ShipSettingsDecrypter(encryptedSettings).decrypt();
+  const settings = devMode
+    ? encryptedSettings
+    : new ShipSettingsDecrypter(encryptedSettings).decrypt();
   const id = _.first(_.split(Buffer.from(token, "base64").toString(), ":"));
 
   req.clientOptions = {
     token,
-    devMode: req.devMode
+    devMode
   };
   req.captchaSolverOptions = {
     token: captchaSolverToken

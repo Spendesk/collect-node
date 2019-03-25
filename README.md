@@ -11,8 +11,7 @@ yarn add spendesk-collect
 ## Spendesk Collect Collector
 
 ```javascript
-const collector = new SpendeskCollect.Collector(PORT, DEV_MODE);
-// DEV_MODE is optional (default: false)
+const collector = new SpendeskCollect.Collector(PORT);
 collector.startApp();
 ```
 
@@ -37,7 +36,8 @@ module.exports = async (req, res) => {
 ## Spendesk Collect Client
 
 ```javascript
-const client = new SpendeskCollect.Client("SHIP_TOKEN");
+const client = new SpendeskCollect.Client("SHIP_TOKEN", DEV_MODE);
+// DEV_MODE is optional (default: false)
 ```
 
 This Client API allows to connect with the Spendesk Collect infrastructure. Here the list of methods available: 

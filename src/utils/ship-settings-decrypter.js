@@ -10,11 +10,9 @@ class ShipSettingsDecrypter {
   }
 
   decrypt() {
-    if (!this.settings.devMode) {
-      _.each(this._getEncryptedFieldNames(), fieldName =>
-        this.decryptField(fieldName)
-      );
-    }
+    _.each(this._getEncryptedFieldNames(), fieldName =>
+      this.decryptField(fieldName)
+    );
 
     return this.settings;
   }
