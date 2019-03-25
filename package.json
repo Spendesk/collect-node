@@ -31,9 +31,9 @@
   "scripts": {
     "test": "yarn run test:lint && yarn run test:combined",
     "test:lint": "eslint src",
-    "test:combined": "NODE_ENV=test jest ./tests",
-    "test:unit": "NODE_ENV=test jest ./tests/units",
-    "test:integration": "NODE_ENV=test jest ./tests/integrations"
+    "test:combined": "jest ./tests",
+    "test:unit": "jest ./tests/units",
+    "test:integration": "jest ./tests/integrations"
   },
   "main": "src/index.js",
   "repository": "git@github.com:Spendesk/collect-node.git",
