@@ -6,6 +6,7 @@ const CaptchaSolver = require("../../captcha-solver");
 
 module.exports = (req, res, next) => {
   const {
+    devMode,
     token,
     settings,
     currentSettingsStepTag,
@@ -17,7 +18,9 @@ module.exports = (req, res, next) => {
     return res.status(401).send({ message: "Unauthorized access" });
   }
 
-  const decryptedSettings = new SettingsDecrypter(settings).decrypt();
+  const decryptedSettings = devMode
+    ? settings
+    : new SettingsDecrypter(settings).decrypt();
   const id = _.first(_.split(Buffer.from(token, "base64").toString(), ":"));
 
   req.clientOptions = {
