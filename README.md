@@ -15,34 +15,35 @@ const collector = new SpendeskCollect.Collector(PORT);
 collector.startApp();
 ```
 
-The collector module launches automatically an express server instance and exposes the routes needed to develop a collector.
+The collector module launches automatically an server instance and exposes what's necessary to develop a collector.
 
-- `api/auth`: returns if ship settings are valids or not
-- `api/collect`: called to extract invoices from a supplier
+- `auth` action: returns if ship settings are valids or not
+- `collect` action: called to extract invoices from a supplier
 - `description`: redirects to `./DESCRIPTION.md`, collector description
 - `manifest`: redirects to `./manifest.json`
-- `assets/*`: redirects to `./assets` that contains the list of assets needed like picture and artworks.
+- `assets/*`: redirects to `./assets` that contains the list of assets needed like logo (`logo.png`).
 
 context is inialized for `status` and `collect` actions.
 
 ```javascript
-module.exports = async (req, res) => {
-  const client = req.client; // SpendeskCollect.Client instance
-  const ship = req.ship; // Ship information { settings, nextCollectAt }
-  const captchaSolver = req.captchaSolver; // Instance of captcha solver (see below for more information)
+module.exports = async (ship, client, captchaSolver) => {
+  // client is SpendeskCollect.Client instance
+  // ship is an object that contains information { settings, nextCollectAt, currentSettingsStepTag }
+  // captchaSolver is a instance of a captcha solver (see below for more information)
 }
 ```
 
 ## Spendesk Collect Client
 
 ```javascript
-const client = new SpendeskCollect.Client("SHIP_TOKEN", DEV_MODE);
-// DEV_MODE is optional (default: false)
+const client = new SpendeskCollect.Client("SHIP_TOKEN");
 ```
 
 This Client API allows to connect with the Spendesk Collect infrastructure. Here the list of methods available: 
 
-- `status(label, type, message)`: returns to broker the status of the ship
+- `done(status, metadata)`: returns to broker the status of the ship
+  - `status` is an object: `{ label: ok|error, type: auth|collect }`
+  - `metadata` is an optional object: `{ currentSettingsStepTag }`
 - `invoices.create(file, metadata, fileOptions)`: uploads a new invoice
   - `file` needs a path or a buffer
   - `metadata` is an object that contains invoice metadata. Requested attributes: `identifier`, `dueAt`, `amount`, `currency`
