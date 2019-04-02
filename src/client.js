@@ -1,7 +1,7 @@
 const superagent = require("superagent");
 
-const loggerUtil = require("./utils/logger");
-const InvoiceUtil = require("./utils/invoice");
+const loggerClientUtil = require("./utils/client/logger");
+const InvoiceClientUtil = require("./utils/client/invoice");
 
 const CONFIG = require("./utils/config");
 
@@ -14,8 +14,8 @@ class Client {
         "Content-Type": "application/json",
         Authorization: `Basic ${token}`
       });
-    this.logger = loggerUtil(token, this.environment);
-    this.invoice = new InvoiceUtil(this.agent, this.environment);
+    this.logger = loggerClientUtil(token, this.environment);
+    this.invoice = new InvoiceClientUtil(this.agent, this.environment);
   }
 
   done(status, metadata) {
