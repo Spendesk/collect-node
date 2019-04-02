@@ -1,6 +1,6 @@
 const winston = require("winston");
 
-const CONFIG = require("./config");
+const CONFIG = require("../config");
 
 module.exports = (token, environment) => {
   return winston.createLogger({
