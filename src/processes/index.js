@@ -1,6 +1,6 @@
-const queue = require("../lib/queue");
 const _ = require("lodash");
 
+const queue = require("../lib/queue");
 const collectorProcess = require("./collector");
 
 const processes = {

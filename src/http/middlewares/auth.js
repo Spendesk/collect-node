@@ -1,8 +1,6 @@
 const _ = require("lodash");
 
 const SettingsDecrypter = require("../../utils/settings-decrypter");
-const Client = require("../../client");
-const CaptchaSolver = require("../../captcha-solver");
 
 module.exports = (req, res, next) => {
   const {

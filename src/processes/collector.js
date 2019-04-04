@@ -21,13 +21,20 @@ module.exports = async (job, done) => {
   try {
     await actions[actionType](ship, client, captchaSolver);
 
-    client.logger.info(`${type}.success`);
+    client.logger.info(`${actionType}.success`);
 
-    await client.done({ label: "ok", type: actionType, message: "Invoices fetched" });
+    await client.done({
+      label: "ok",
+      type: actionType,
+      message: "Invoices fetched"
+    });
   } catch (e) {
-    const type = (e instanceof ActionError) ? e.type : actionType;
-    const message = (e instanceof ActionError) ? e.clientMessage : "An error occured on our side, we are fixing it";
-    const metadata = (e instanceof AuthActionError) ? e.clientMetadata : {};
+    const type = e instanceof ActionError ? e.type : actionType;
+    const message =
+      e instanceof ActionError
+        ? e.clientMessage
+        : "An error occured on our side, we are fixing it";
+    const metadata = e instanceof AuthActionError ? e.clientMetadata : {};
 
     client.logger.error(`${type}.error`, { error: e.message });
 

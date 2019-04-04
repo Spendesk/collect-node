@@ -1,23 +1,27 @@
 const queue = require("../../lib/queue");
 
 const collect = (req, res) => {
-  queue.create("collector", {
-    clientOptions: req.clientOptions,
-    captchaSolverOptions: req.captchaSolverOptions,
-    ship: req.ship,
-    actionType: "collect"
-  }).save();
+  queue
+    .create("collector", {
+      clientOptions: req.clientOptions,
+      captchaSolverOptions: req.captchaSolverOptions,
+      ship: req.ship,
+      actionType: "collect"
+    })
+    .save();
 
   res.json({ ok: true });
 };
 
 const auth = (req, res) => {
-  queue.create("collector", {
-    clientOptions: req.clientOptions,
-    captchaSolverOptions: req.captchaSolverOptions,
-    ship: req.ship,
-    actionType: "auth"
-  }).save();
+  queue
+    .create("collector", {
+      clientOptions: req.clientOptions,
+      captchaSolverOptions: req.captchaSolverOptions,
+      ship: req.ship,
+      actionType: "auth"
+    })
+    .save();
 
   res.json({ ok: true });
 };
