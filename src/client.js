@@ -8,12 +8,10 @@ const CONFIG = require("./utils/config");
 class Client {
   constructor(token, devMode = false) {
     this.environment = devMode ? "development" : "production";
-    this.agent = superagent
-      .agent()
-      .set({
-        "Content-Type": "application/json",
-        Authorization: `Basic ${token}`
-      });
+    this.agent = superagent.agent().set({
+      "Content-Type": "application/json",
+      Authorization: `Basic ${token}`
+    });
     this.logger = loggerClientUtil(token, this.environment);
     this.invoice = new InvoiceClientUtil(this.agent, this.environment);
   }
