@@ -19,14 +19,19 @@ module.exports = async (job, done) => {
   const captchaSolver = new CaptchaSolver(captchaSolverOptions.token);
 
   try {
+    client.logger.info(`${actionType}.start`);
+
     await actions[actionType](ship, client, captchaSolver);
 
     client.logger.info(`${actionType}.success`);
 
+    const message =
+      actionType === "collect" ? "Invoices fetched" : "Sign in with success";
+
     await client.done({
       label: "ok",
       type: actionType,
-      message: "Invoices fetched"
+      message
     });
   } catch (e) {
     const type = e instanceof ActionError ? e.type : actionType;
