@@ -2,10 +2,9 @@ const ActionError = require("./action");
 
 class CollectAction extends ActionError {
   constructor(message, clientMessage) {
-    super(message);
+    super(message, clientMessage);
 
     this.type = "collect";
-    this.clientMessage = clientMessage;
   }
 }
 

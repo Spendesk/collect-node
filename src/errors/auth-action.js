@@ -2,10 +2,9 @@ const ActionError = require("./action");
 
 class AuthAction extends ActionError {
   constructor(message, clientMessage, clientMetadata) {
-    super(message);
+    super(message, clientMessage);
 
     this.type = "auth";
-    this.clientMessage = clientMessage;
     this.clientMetadata = clientMetadata;
   }
 }
