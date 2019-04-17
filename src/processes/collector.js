@@ -1,6 +1,8 @@
 const collectAction = require(`${process.cwd()}/app/actions/collect`);
 const authAction = require(`${process.cwd()}/app/actions/auth`);
 
+const browserUtil = require("../utils/browser");
+
 const Client = require("../client");
 const CaptchaSolver = require("../captcha-solver");
 
@@ -15,13 +17,14 @@ const actions = {
 module.exports = async (job, done) => {
   const { clientOptions, captchaSolverOptions, ship, actionType } = job.data;
 
+  const browser = await browserUtil(clientOptions.devMode);
   const client = new Client(clientOptions.token, clientOptions.devMode);
   const captchaSolver = new CaptchaSolver(captchaSolverOptions.token);
 
   try {
     client.logger.info(`${actionType}.start`);
 
-    await actions[actionType](ship, client, captchaSolver);
+    await actions[actionType](browser, ship, client, captchaSolver);
 
     client.logger.info(`${actionType}.success`);
 
@@ -52,6 +55,8 @@ module.exports = async (job, done) => {
       metadata
     );
   }
+
+  await browser.close();
 
   done();
 };
