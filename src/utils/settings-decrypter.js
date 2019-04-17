@@ -42,7 +42,7 @@ class SettingsDecrypter {
 
   _getEncryptedFieldNames() {
     return _.map(
-      _.filter(_.values(SETTINGS_SCHEMA), ["encrypted", true]),
+      _.filter(_.flatten(_.values(SETTINGS_SCHEMA)), ["encrypted", true]),
       "name"
     );
   }
