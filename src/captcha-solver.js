@@ -1,55 +1,53 @@
-const _ = require("lodash");
 const delay = require("delay");
 const superagent = require("superagent");
 
-const DEATH_BY_CAPTCHA_CONFIG = require("./utils/config").deathByCaptcha;
+const CAPTCHA_CONFIG = require("./utils/config").captcha;
 
 class CaptchaSolver {
   constructor(token) {
-    [this.username, this.password] = _.split(
-      Buffer.from(token, "base64").toString(),
-      ":"
-    );
-
-    this.agent = superagent
-      .agent()
-      .redirects(1)
-      .set({ Accept: "application/json" });
+    this.token = token;
+    this.agent = superagent.agent().set({ Accept: "application/json" });
   }
 
-  async solveReCaptcha(googlekey, pageurl, proxy, proxytype) {
-    const reCaptchaRequest = await this._reCaptchaRequest({
+  async solveReCaptcha(googlekey, pageurl) {
+    const reCaptchaRequestResponse = await this._reCaptchaRequestResponse(
+      googlekey,
+      pageurl
+    );
+    const reCaptchaRequestId = reCaptchaRequestResponse.body.request;
+
+    return this._retrieveReCaptchaResult(reCaptchaRequestId);
+  }
+
+  async _retrieveReCaptchaResult(id) {
+    const reCaptchaResultResponse = await this._reCaptchaResultResponse(id);
+
+    if (reCaptchaResultResponse.body.request === "CAPCHA_NOT_READY") {
+      await delay(1000);
+
+      return this._retrieveReCaptchaResult(id);
+    }
+
+    return reCaptchaResultResponse.body.request;
+  }
+
+  _reCaptchaRequestResponse(googlekey, pageurl) {
+    return this.agent.get(`http://${CAPTCHA_CONFIG.host}/in.php`).query({
       googlekey,
       pageurl,
-      proxy,
-      proxytype
+      key: this.token,
+      method: "userrecaptcha",
+      json: "1"
     });
-    const reCaptchaRequestId = reCaptchaRequest.body.captcha;
-
-    await delay(DEATH_BY_CAPTCHA_CONFIG.timeout);
-
-    const reCaptchaResponse = await this._reCaptchaResponse(reCaptchaRequestId);
-
-    return reCaptchaResponse.body;
   }
 
-  _reCaptchaRequest(params) {
-    return this.agent
-      .type("form")
-      .post(`http://${DEATH_BY_CAPTCHA_CONFIG.host}/api/captcha`)
-      .send({
-        username: this.username,
-        password: this.password,
-        type: 4,
-        token_params: JSON.stringify(_.pickBy(params))
-      });
-  }
-
-  _reCaptchaResponse(id) {
-    return this.agent
-      .type("form")
-      .get(`http://${DEATH_BY_CAPTCHA_CONFIG.host}/api/captcha/${id}`)
-      .send();
+  _reCaptchaResultResponse(id) {
+    return this.agent.get(`http://${CAPTCHA_CONFIG.host}/res.php`).query({
+      id,
+      key: this.token,
+      action: "get",
+      json: "1"
+    });
   }
 }
 
